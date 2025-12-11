@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="2025-09-18" ReportInfo.Modified="2025-09-18">
+  <Dictionary>
+    <TableDataSource Name="Batiments" ReferenceName="Batiments" Enabled="true">
+      <Column Name="codecli" DataType="System.String"/>
+      <Column Name="numcentre" DataType="System.String"/>
+      <Column Name="libelleCentre" DataType="System.String"/>
+      <Column Name="numbat" DataType="System.String"/>
+      <Column Name="libellebat" DataType="System.String"/>
+    </TableDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Height="1cm">
+      <TextObject Name="Text1" Width="19cm" Height="1cm" Text="Liste des Batiments" HorzAlign="Center" Font="Arial, 14pt, style=Bold"/>
+    </ReportTitleBand>
+    <DataBand Name="Data1" DataSource="Batiments" Height="0.6cm">
+      <TextObject Name="Text_codecli" Left="0cm" Width="3cm" Height="0.6cm" Text="{Batiments.codecli}"/>
+      <TextObject Name="Text_numcentre" Left="3cm" Width="3cm" Height="0.6cm" Text="{Batiments.numcentre}"/>
+      <TextObject Name="Text_libelleCentre" Left="6cm" Width="4cm" Height="0.6cm" Text="{Batiments.libelleCentre}"/>
+      <TextObject Name="Text_numbat" Left="10cm" Width="3cm" Height="0.6cm" Text="{Batiments.numbat}"/>
+      <TextObject Name="Text_libellebat" Left="13cm" Width="6cm" Height="0.6cm" Text="{Batiments.libellebat}"/>
+    </DataBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,34 @@
+{
+  "login": {
+    "title": "نظام إدارة الدواجن",
+    "subtitle": "منصة متكاملة لإدارة مزارع الدواجن",
+    "formTitle": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "أدخل اسم المستخدم",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "database": "قاعدة البيانات",
+    "selectDatabase": "اختر قاعدة البيانات",
+    "loadingDatabases": "جاري تحميل قواعد البيانات...",
+    "submit": "تسجيل الدخول",
+    "submitting": "جاري التحقق...",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب؟",
+    "createAccount": "إنشاء حساب جديد",
+    "errors": {
+      "usernameRequired": "يرجى إدخال اسم المستخدم",
+      "passwordRequired": "يرجى إدخال كلمة المرور",
+      "databaseRequired": "يرجى اختيار قاعدة البيانات",
+      "loadDatabasesFailed": "فشل تحميل قواعد البيانات",
+      "connectionTimeout": "انتهت مهلة الاتصال بالخادم",
+      "serverError": "Erreur serveur interne",
+      "networkError": "Impossible de se connecter au serveur. Vérifiez la connexion.",
+      "unknownError": "Erreur inconnue lors de la connexion",
+      "invalidCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة",
+      "endpointNotFound": "Endpoint non trouvé"
+    }
+  }
+}
+
+
+

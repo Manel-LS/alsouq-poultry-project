@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frontend specific
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/node_modules/
+
+# Backend specific
+backend/bin/
+backend/obj/
+backend/.vs/
+backend/node_modules/
+backend/vendor/
+
+# Git
+.git/
+
