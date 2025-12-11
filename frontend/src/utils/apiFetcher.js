@@ -1,10 +1,11 @@
 import { API_CONFIG, getAuthHeaders } from '../config/api.js'
 
 const apiFetcher = async (endpoint, options = {}) => {
-  const { method = 'GET', body, headers, timeout = API_CONFIG.TIMEOUT } = options
+  const { method = 'GET', body, headers, timeout = API_CONFIG.TIMEOUT, skipAuth = false } = options
 
   const url = `${API_CONFIG.BASE_URL}${endpoint}`
-  const defaultHeaders = getAuthHeaders()
+  // Si skipAuth est true, utiliser seulement les headers par défaut sans authentification
+  const defaultHeaders = skipAuth ? API_CONFIG.DEFAULT_HEADERS : getAuthHeaders()
 
   const controller = new AbortController()
   const id = setTimeout(() => controller.abort(), timeout)

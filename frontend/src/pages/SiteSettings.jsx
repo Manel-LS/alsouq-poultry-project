@@ -5301,8 +5301,12 @@ const LayerDashboard = () => {
                             } else {
                               displayQuantity = 0;
                             }
+                            
+                            // Vérifier si l'article est vraiment dans le panier avec une quantité > 0
+                            const isActuallyInCart = isInCart && displayQuantity > 0;
+                            
                             const rowClasses = [
-                              isInCart ? 'cart-item-added' : '',
+                              isActuallyInCart ? 'cart-item-added' : '',
                               hasExistingMovement ? 'existing-mvt-row' : ''
                             ].filter(Boolean).join(' ');
 
@@ -5405,7 +5409,7 @@ const LayerDashboard = () => {
                                   borderBottom: '1px solid #f1f5f9',
                                   verticalAlign: 'middle'
                                 }}>
-                                  {isInCart ? (
+                                  {isActuallyInCart ? (
                                     <div className="d-flex align-items-center justify-content-center gap-2">
                                       <CBadge color="success" style={{ fontSize: '9px', padding: '4px 8px' }}>
                                         {isArabic ? "مضاف للقائمة" : "Ajouté à la liste"}

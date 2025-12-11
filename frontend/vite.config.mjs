@@ -59,7 +59,7 @@ export default defineConfig(() => {
       port: 3000,
       proxy: {
         '/api': {
-          target: 'https://localhost:7054',
+          target: 'http://localhost:5192',
           changeOrigin: true,
           secure: false, // Désactiver la vérification SSL en développement
           rewrite: (path) => path, // Garder le chemin /api tel quel

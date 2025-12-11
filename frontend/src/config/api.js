@@ -1,6 +1,6 @@
 // Configuration de l'API (Vite utilise import.meta.env)
 const IS_DEV = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV)
-const API_ORIGIN = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || 'https://localhost:7054'
+const API_ORIGIN = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || 'http://localhost:5192'
 const DEFAULT_DB = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_DEFAULT_DATABASE) || ''
 
 export const API_CONFIG = {

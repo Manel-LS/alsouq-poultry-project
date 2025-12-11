@@ -12,6 +12,16 @@ import { useTranslation } from 'react-i18next';
 import { useTranslationField } from '../hooks/useTranslationField';
 import { getTranslatedField } from '../utils/translation';
 
+// Custom hook for debouncing
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+  return debouncedValue;
+};
+
 // FontAwesome Icon component
 const FaIcon = ({ icon, className = '', style = {} }) => (
   <i className={`fas ${icon} ${className}`} style={style} />
@@ -517,6 +527,7 @@ const StockEntry = () => {
   const [inventoryDepot, setInventoryDepot] = useState({ code: '', label: '' });
   const [selectedStructure, setSelectedStructure] = useState('');
   const [articleSearchTerm, setArticleSearchTerm] = useState('');
+  const debouncedArticleSearchTerm = useDebounce(articleSearchTerm, 300);
   
   // États pour les fournisseurs
   const [fournisseurs, setFournisseurs] = useState([]);
@@ -573,11 +584,12 @@ const StockEntry = () => {
       }
     } catch (error) {
       console.error('Erreur lors du chargement des sites:', error);
-      setAlertMessage(isArabic ? 'فشل في تحميل قائمة المواقع' : 'Échec du chargement de la liste des sites');
+      const errorMessage = error.response?.data?.error || error.message || (isArabic ? 'فشل في تحميل قائمة المواقع' : 'Échec du chargement de la liste des sites');
+      setAlertMessage(errorMessage);
       setAlertType('danger');
       setShowAlert(true);
     }
-  }, []);
+  }, [isArabic]);
 
   // Charger les bâtiments (miseplaces) pour un centre
   const fetchMiseplaces = useCallback(async (numcentre) => {
@@ -603,12 +615,13 @@ const StockEntry = () => {
       }
     } catch (error) {
       console.error('Erreur lors du chargement des bâtiments:', error);
-      setMiseplacesError(isArabic ? 'فشل في تحميل قائمة المباني' : 'Échec du chargement de la liste des bâtiments');
+      const errorMessage = error.response?.data?.error || error.message || (isArabic ? 'فشل في تحميل قائمة المباني' : 'Échec du chargement de la liste des bâtiments');
+      setMiseplacesError(errorMessage);
       setMiseplaces([]);
     } finally {
       setLoadingMiseplaces(false);
     }
-  }, []);
+  }, [isArabic]);
 
   // Charger les structures
   const fetchStructures = useCallback(async () => {
@@ -628,13 +641,14 @@ const StockEntry = () => {
       }
     } catch (error) {
       console.error('Erreur lors du chargement des structures:', error);
-      setAlertMessage(isArabic ? 'فشل في تحميل قائمة الهياكل' : 'Échec du chargement de la liste des structures');
+      const errorMessage = error.response?.data?.error || error.message || (isArabic ? 'فشل في تحميل قائمة الهياكل' : 'Échec du chargement de la liste des structures');
+      setAlertMessage(errorMessage);
       setAlertType('danger');
       setShowAlert(true);
     } finally {
       setLoadingStructures(false);
     }
-  }, []);
+  }, [isArabic]);
 
   // Charger les fournisseurs
   const fetchFournisseurs = useCallback(async () => {
@@ -647,13 +661,14 @@ const StockEntry = () => {
       }
     } catch (error) {
       console.error('Erreur lors du chargement des fournisseurs:', error);
-      setAlertMessage(isArabic ? 'فشل في تحميل قائمة الموردين' : 'Échec du chargement de la liste des fournisseurs');
+      const errorMessage = error.response?.data?.error || error.message || (isArabic ? 'فشل في تحميل قائمة الموردين' : 'Échec du chargement de la liste des fournisseurs');
+      setAlertMessage(errorMessage);
       setAlertType('danger');
       setShowAlert(true);
     } finally {
       setLoadingFournisseurs(false);
     }
-  }, []);
+  }, [isArabic]);
 
   // Charger l'inventaire
   const fetchInventory = useCallback(async (structureCode) => {
@@ -703,13 +718,14 @@ const StockEntry = () => {
     } catch (error) {
       console.error('Erreur lors du chargement de l\'inventaire:', error);
       setInventory([]);
-      setAlertMessage(isArabic ? 'فشل في تحميل قائمة المواد' : 'Échec du chargement de la liste des articles');
+      const errorMessage = error.response?.data?.error || error.message || (isArabic ? 'فشل في تحميل قائمة المواد' : 'Échec du chargement de la liste des articles');
+      setAlertMessage(errorMessage);
       setAlertType('danger');
       setShowAlert(true);
     } finally {
       setLoadingInventory(false);
     }
-  }, [selectedMiseplace, selectedSite, selectedBatiment, nomBaseStockSession]);
+  }, [selectedMiseplace, selectedSite, selectedBatiment, nomBaseStockSession, isArabic]);
 
   // Initialisation
   useEffect(() => {
@@ -769,8 +785,8 @@ const StockEntry = () => {
   // Filtrer et trier les données
   const filteredAndSortedInventory = useMemo(() => {
     let filtered = inventory.filter((item) => {
-      if (!articleSearchTerm) return true;
-      const search = articleSearchTerm.toLowerCase();
+      if (!debouncedArticleSearchTerm) return true;
+      const search = debouncedArticleSearchTerm.toLowerCase();
       const code = (item.codeart || '').toLowerCase();
       const libelle = (item.desart || item.libarabe || item.libelle || '').toLowerCase();
       return code.includes(search) || libelle.includes(search);
@@ -794,7 +810,7 @@ const StockEntry = () => {
     }
 
     return filtered;
-  }, [inventory, articleSearchTerm, sortConfig]);
+  }, [inventory, debouncedArticleSearchTerm, sortConfig]);
 
   // Pagination
   const totalPages = Math.ceil(filteredAndSortedInventory.length / itemsPerPage);

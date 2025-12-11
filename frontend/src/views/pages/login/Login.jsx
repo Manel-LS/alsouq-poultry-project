@@ -62,27 +62,48 @@ const Login = () => {
   useEffect(() => {
     const fetchDatabases = async () => {
       try {
+        // Pour /api/databases, on n'a pas besoin d'authentification
         const response = await apiFetcher(API_ENDPOINTS.databases, {
           method: 'GET',
           timeout: 10000,
+          skipAuth: true // Skip authentication headers for this public endpoint
         })
         if (response.success) {
-          setDatabases(response.data.databases || [])
+          setDatabases(response.data.databases || response.data || [])
         } else {
           setError(t('login.errors.loadDatabasesFailed'))
         }
       } catch (err) {
         console.error('❌ Erreur fetchDatabases:', err)
+        console.error('❌ Détails de l\'erreur:', {
+          message: err.message,
+          status: err.response?.status,
+          statusText: err.response?.statusText,
+          data: err.data,
+          errorData: err.data?.error
+        })
+        
+        // Extraire le message d'erreur détaillé du backend si disponible
+        let errorMessage = err.message
+        if (err.data?.error) {
+          const backendError = err.data.error
+          errorMessage = backendError.message || backendError.title || backendError.rawText || errorMessage
+        }
+        
         if (err.message === 'Request timed out') {
           setError(t('login.errors.connectionTimeout'))
         } else if (err.response?.status === 404) {
           setError(t('login.errors.endpointNotFound') + ': ' + API_ENDPOINTS.databases)
         } else if (err.response?.status >= 500) {
-          setError(t('login.errors.serverError'))
+          // Afficher le message d'erreur du backend si disponible
+          const serverErrorMsg = errorMessage.includes('Internal Server Error') 
+            ? t('login.errors.serverError') + (errorMessage !== 'Internal Server Error' ? `: ${errorMessage}` : '')
+            : t('login.errors.serverError') + ': ' + errorMessage
+          setError(serverErrorMsg)
         } else if (err.message === 'Network Error') {
           setError(t('login.errors.networkError'))
         } else {
-          setError(`${t('login.errors.loadDatabasesFailed')}: ${err.message}`)
+          setError(`${t('login.errors.loadDatabasesFailed')}: ${errorMessage}`)
         }
       } finally {
         setLoadingDatabases(false)

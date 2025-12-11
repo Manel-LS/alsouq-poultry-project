@@ -37,9 +37,10 @@
   border: 2px solid rgba(231, 101, 88, 0.3);
 }
 
+/* Le sélecteur de langue reste toujours à droite, peu importe la langue */
 .login-page-wrapper.rtl .login-language-switcher {
-  right: auto;
-  left: 1.5rem;
+  right: 1.5rem;
+  left: auto;
 }
 
 .lang-btn {
@@ -297,9 +298,10 @@
     padding: 0.4rem;
   }
 
+  /* Le sélecteur de langue reste toujours à droite en responsive aussi */
   .login-page-wrapper.rtl .login-language-switcher {
-    right: auto;
-    left: 1rem;
+    right: 1rem;
+    left: auto;
   }
 
   .lang-btn {

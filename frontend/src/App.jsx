@@ -43,6 +43,13 @@ const App = () => {
     document.dir = i18n.language === 'ar' ? 'rtl' : 'ltr'
   }, [i18n.language])
 
+  // 📝 Mise à jour du titre du document selon la langue
+  useEffect(() => {
+    document.title = i18n.language === 'ar' 
+      ? 'السلوق لدواجن' 
+      : 'Alsouq Poultry - Gestion Avicole'
+  }, [i18n.language])
+
   return (
     <BrowserRouter>
       <Suspense
