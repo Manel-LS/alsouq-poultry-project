@@ -1,0 +1,135 @@
+========================================
+COMMENT LANCER LE PROJET EN LIGNE DE COMMANDE
+(Sans Visual Studio)
+========================================
+
+MÉTHODE 1 : LA PLUS SIMPLE (Recommandée)
+=========================================
+
+1. Ouvrir PowerShell
+   (Windows + X → PowerShell ou Terminal)
+
+2. Aller dans le dossier du projet :
+   cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+3. Lancer directement :
+   dotnet run
+
+4. L'application démarre automatiquement !
+   Accédez à : http://localhost:5192/swagger
+
+
+MÉTHODE 2 : Avec le script PowerShell
+======================================
+
+1. Ouvrir PowerShell
+
+2. Aller dans le dossier du projet :
+   cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+3. Exécuter le script :
+   .\run-project.ps1
+
+4. L'application démarre automatiquement !
+
+
+MÉTHODE 3 : Build puis Run (pour production)
+=============================================
+
+1. Ouvrir PowerShell
+
+2. Aller dans le dossier du projet :
+   cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+3. Builder le projet :
+   dotnet build
+
+4. Lancer l'application :
+   dotnet run
+
+OU
+
+3. Publier le projet :
+   dotnet publish -c Release -o ./publish
+
+4. Aller dans le dossier publish :
+   cd publish
+
+5. Lancer :
+   dotnet BackendApi.dll
+
+
+========================================
+COMMANDES UTILES
+========================================
+
+Vérifier que dotnet est installé :
+  dotnet --version
+
+Voir les commandes disponibles :
+  dotnet --help
+
+Restaurer les packages NuGet :
+  dotnet restore
+
+Nettoyer le projet :
+  dotnet clean
+
+Builder en mode Release :
+  dotnet build -c Release
+
+Builder en mode Debug :
+  dotnet build -c Debug
+
+
+========================================
+ARRÊTER L'APPLICATION
+========================================
+
+Dans le terminal PowerShell, appuyer sur :
+  Ctrl + C
+
+
+========================================
+ACCÉDER À L'API
+========================================
+
+Une fois lancée, ouvrir dans le navigateur :
+  http://localhost:5192/swagger
+
+Ou tester avec curl :
+  curl http://localhost:5192/swagger
+
+
+========================================
+EN CAS DE PROBLÈME
+========================================
+
+1. Vérifier que dotnet est installé :
+   dotnet --version
+   (Doit afficher 8.0.x)
+
+2. Vérifier que vous êtes dans le bon dossier :
+   ls BackendApi.csproj
+   (Doit afficher le fichier)
+
+3. Restaurer les packages :
+   dotnet restore
+
+4. Nettoyer et rebuilder :
+   dotnet clean
+   dotnet build
+
+5. Vérifier que le port 5192 n'est pas utilisé :
+   netstat -ano | findstr :5192
+
+
+========================================
+RÉSUMÉ RAPIDE
+========================================
+
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+dotnet run
+
+C'est tout ! 🚀
+

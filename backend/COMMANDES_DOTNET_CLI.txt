@@ -1,0 +1,161 @@
+========================================
+COMMANDES DOTNET CLI (Sans Visual Studio)
+========================================
+
+CRÉER UN PROJET
+===============
+
+dotnet new webapi -n MonProjet        # Web API
+dotnet new console -n MonProjet       # Console
+dotnet new mvc -n MonProjet           # MVC
+dotnet new blazor -n MonProjet       # Blazor
+dotnet new classlib -n MaLibrairie   # Bibliothèque
+
+
+RESTAURER ET CONSTRUIRE
+=======================
+
+dotnet restore                        # Restaurer packages
+dotnet build                          # Build Debug
+dotnet build -c Release               # Build Release
+dotnet build --no-restore             # Build sans restaurer
+
+
+EXÉCUTER
+========
+
+dotnet run                            # Exécuter Debug
+dotnet run -c Release                 # Exécuter Release
+dotnet run -- arg1 arg2               # Avec arguments
+
+
+PUBLIER
+=======
+
+dotnet publish -c Release             # Publier
+dotnet publish -c Release -o ./publish # Dans un dossier
+dotnet publish -c Release -r win-x64  # Pour Windows 64-bit
+
+
+GÉRER LES PACKAGES
+==================
+
+dotnet add package NomDuPackage       # Ajouter package
+dotnet add package Nom --version 1.2.3 # Avec version
+dotnet remove package Nom             # Supprimer package
+dotnet list package                   # Lister packages
+dotnet list package --outdated        # Packages obsolètes
+
+
+GÉRER LES RÉFÉRENCES
+====================
+
+dotnet add reference ../Projet/Projet.csproj  # Ajouter référence
+dotnet remove reference ../Projet/Projet.csproj # Supprimer
+dotnet list reference                 # Lister références
+
+
+TESTS
+=====
+
+dotnet new xunit -n Tests            # Créer projet test
+dotnet test                          # Exécuter tests
+dotnet test --verbosity normal       # Avec détails
+dotnet test --filter "NomTest"       # Test spécifique
+
+
+NETTOYER
+========
+
+dotnet clean                         # Nettoyer build
+dotnet clean -c Release              # Nettoyer Release
+
+
+INFORMATIONS
+============
+
+dotnet --version                     # Version .NET
+dotnet --list-sdks                   # SDK installés
+dotnet --list-runtimes               # Runtimes installés
+dotnet new list                      # Templates disponibles
+
+
+WORKFLOW TYPIQUE
+================
+
+# 1. Créer projet
+dotnet new webapi -n MonProjet
+cd MonProjet
+
+# 2. Ajouter packages
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Pomelo.EntityFrameworkCore.MySql
+
+# 3. Éditer le code (dans VS Code, Notepad++, etc.)
+
+# 4. Tester
+dotnet run
+
+# 5. Publier
+dotnet publish -c Release -o ./publish
+
+
+EXEMPLE COMPLET
+===============
+
+# Créer une API
+dotnet new webapi -n MonApi
+cd MonApi
+
+# Ajouter Entity Framework
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Pomelo.EntityFrameworkCore.MySql
+
+# Ajouter JWT
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+# Restaurer
+dotnet restore
+
+# Construire
+dotnet build
+
+# Exécuter
+dotnet run
+
+# Publier
+dotnet publish -c Release -o ./publish
+
+
+ÉDITEURS RECOMMANDÉS
+====================
+
+1. VS Code (Gratuit) - Extension C#
+   https://code.visualstudio.com/
+
+2. Notepad++ (Simple)
+   https://notepad-plus-plus.org/
+
+3. Rider (Payant, puissant)
+   https://www.jetbrains.com/rider/
+
+
+AVANTAGES SANS VISUAL STUDIO
+=============================
+
+✅ Plus léger (pas besoin d'installer VS)
+✅ Plus rapide
+✅ Automatisable
+✅ Multi-plateforme
+✅ Contrôle total
+
+
+RESSOURCES
+==========
+
+Documentation CLI :
+https://docs.microsoft.com/dotnet/core/tools/
+
+VS Code C# Extension :
+https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
+

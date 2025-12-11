@@ -1,0 +1,112 @@
+========================================
+INSTALLER .NET SDK 8.0 (RECOMMANDÉ)
+========================================
+
+Le SDK inclut tout : runtime + outils de développement
+C'est mieux que juste le runtime !
+
+
+MÉTHODE 1 : Installation Manuelle (PLUS SIMPLE)
+===============================================
+
+1. Aller sur : https://dotnet.microsoft.com/download/dotnet/8.0
+
+2. Cliquer sur "Download .NET SDK 8.0.x" (pas Runtime, mais SDK !)
+
+3. Choisir "Windows x64"
+
+4. Télécharger le fichier .exe
+
+5. Double-cliquer et installer
+
+6. Fermer et rouvrir PowerShell
+
+7. Vérifier :
+   dotnet --version
+   dotnet --list-sdks
+
+
+MÉTHODE 2 : Installation Automatique (PowerShell)
+==================================================
+
+# Ouvrir PowerShell EN TANT QU'ADMINISTRATEUR
+
+# Télécharger le script d'installation
+Invoke-WebRequest -Uri "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1" -OutFile "$env:TEMP\dotnet-install.ps1"
+
+# Installer .NET SDK 8.0 (pas Runtime, mais SDK)
+& "$env:TEMP\dotnet-install.ps1" -Channel 8.0
+
+# Fermer et rouvrir PowerShell
+
+# Vérifier
+dotnet --version
+dotnet --list-sdks
+
+
+MÉTHODE 3 : Via Chocolatey (Si installé)
+==========================================
+
+# En tant qu'administrateur
+choco install dotnet-8.0-sdk -y
+
+
+VÉRIFICATION APRÈS INSTALLATION
+================================
+
+# Vérifier la version
+dotnet --version
+# Doit afficher : 8.0.x
+
+# Voir tous les SDK installés
+dotnet --list-sdks
+
+# Voir tous les runtimes installés
+dotnet --list-runtimes
+
+
+LIEN DIRECT DE TÉLÉCHARGEMENT
+===============================
+
+SDK .NET 8.0 (Windows x64) :
+https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.11-windows-x64-installer
+
+Page principale :
+https://dotnet.microsoft.com/download/dotnet/8.0
+
+
+APRÈS INSTALLATION
+==================
+
+Une fois le SDK installé, vous pourrez :
+
+# Publier votre projet
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+dotnet publish -c Release -o ./publish
+
+# Lancer l'application
+cd publish
+dotnet BackendApi.dll
+
+
+DIFFÉRENCE SDK vs RUNTIME
+==========================
+
+SDK (Software Development Kit) :
+- ✅ Inclut le runtime
+- ✅ Inclut les outils de développement (dotnet build, dotnet publish, etc.)
+- ✅ Plus complet
+- ✅ Recommandé pour le développement
+
+Runtime :
+- ✅ Juste pour exécuter les applications
+- ❌ Pas d'outils de développement
+- ❌ Plus léger
+
+
+SI VOUS AVEZ DÉJÀ LE RUNTIME
+=============================
+
+Vous pouvez installer le SDK par-dessus, ça ne posera pas de problème.
+Le SDK remplacera/améliorera le runtime existant.
+

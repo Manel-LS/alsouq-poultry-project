@@ -1,0 +1,67 @@
+========================================
+COMMANDES POUR LANCER L'APPLICATION
+(Sans service Windows)
+========================================
+
+ÉTAPE 1 : Aller dans le dossier du projet
+------------------------------------------
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+
+ÉTAPE 2 : Publier le projet
+----------------------------
+dotnet publish -c Release -o ./publish
+
+
+ÉTAPE 3 : Aller dans le dossier publish
+----------------------------------------
+cd publish
+
+
+ÉTAPE 4 : Lancer l'application
+-------------------------------
+dotnet BackendApi.dll
+
+
+========================================
+TOUT EN UNE FOIS (Copier-coller)
+========================================
+
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+dotnet publish -c Release -o ./publish
+cd publish
+dotnet BackendApi.dll
+
+
+========================================
+OU UTILISER LE SCRIPT (Plus simple)
+========================================
+
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+.\run-production-simple.ps1
+
+
+========================================
+ACCÉDER À L'API
+========================================
+
+Une fois lancée, ouvrir dans le navigateur :
+http://localhost:5192/swagger
+
+
+========================================
+ARRÊTER L'APPLICATION
+========================================
+
+Appuyer sur : Ctrl + C
+
+
+========================================
+NOTE IMPORTANTE
+========================================
+
+⚠️ L'application s'arrêtera si vous fermez le terminal PowerShell !
+
+Pour que ça continue à fonctionner même après fermeture du terminal,
+il faut utiliser un service Windows (voir COMMANDES_PRODUCTION.txt)
+

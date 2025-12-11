@@ -1,0 +1,75 @@
+========================================
+COMMANDES POUR INSTALLER .NET
+========================================
+
+MÉTHODE 1 : Installation Automatique (PowerShell)
+==================================================
+
+# 1. Ouvrir PowerShell EN TANT QU'ADMINISTRATEUR
+
+# 2. Télécharger et installer .NET 8.0
+Invoke-WebRequest -Uri "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1" -OutFile "$env:TEMP\dotnet-install.ps1"
+& "$env:TEMP\dotnet-install.ps1" -Channel 8.0 -Runtime aspnetcore
+
+# 3. Fermer et rouvrir PowerShell
+
+# 4. Vérifier
+dotnet --version
+
+
+MÉTHODE 2 : Installation Manuelle (Plus Simple)
+===============================================
+
+1. Aller sur : https://dotnet.microsoft.com/download/dotnet/8.0
+2. Cliquer sur "Download .NET 8.0 Runtime"
+3. Choisir "ASP.NET Core Runtime 8.0.x" → Windows x64
+4. Télécharger et installer le fichier .exe
+5. Fermer et rouvrir PowerShell
+6. Vérifier : dotnet --version
+
+
+VÉRIFIER SI .NET EST DÉJÀ INSTALLÉ
+====================================
+
+# Chercher .NET dans les emplacements courants
+$possiblePaths = @(
+    "C:\Program Files\dotnet\dotnet.exe",
+    "C:\Program Files (x86)\dotnet\dotnet.exe",
+    "$env:USERPROFILE\.dotnet\dotnet.exe"
+)
+
+foreach ($path in $possiblePaths) {
+    if (Test-Path $path) {
+        Write-Host "✓ .NET trouvé : $path" -ForegroundColor Green
+        & $path --version
+    }
+}
+
+
+AJOUTER .NET AU PATH (Si trouvé mais pas reconnu)
+==================================================
+
+# En tant qu'administrateur
+$dotnetPath = "C:\Program Files\dotnet"
+$currentPath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+if ($currentPath -notlike "*$dotnetPath*") {
+    [System.Environment]::SetEnvironmentVariable("Path", "$currentPath;$dotnetPath", "Machine")
+    Write-Host "✓ .NET ajouté au PATH" -ForegroundColor Green
+    Write-Host "⚠ Fermez et rouvrez PowerShell" -ForegroundColor Yellow
+}
+
+
+APRÈS INSTALLATION
+==================
+
+# Vérifier que ça fonctionne
+dotnet --version
+
+# Doit afficher : 8.0.x
+
+# Ensuite, vous pourrez lancer votre application :
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+dotnet publish -c Release -o ./publish
+cd publish
+dotnet BackendApi.dll
+

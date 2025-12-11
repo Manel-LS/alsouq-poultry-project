@@ -1,0 +1,125 @@
+========================================
+INSTALLATION PAS À PAS : SDK .NET 8.0
+========================================
+
+ÉTAPE 1 : TÉLÉCHARGER
+=====================
+
+1. Ouvrir votre navigateur (Chrome, Edge, etc.)
+
+2. Aller sur :
+   https://dotnet.microsoft.com/download/dotnet/8.0
+
+3. Chercher la section ".NET SDK 8.0.x" (pas Runtime, mais SDK)
+
+4. Cliquer sur "Download" ou "Télécharger"
+
+5. Choisir "Windows x64"
+
+6. Attendre que le fichier se télécharge
+   (Fichier : dotnet-sdk-8.0.11-win-x64.exe)
+
+
+ÉTAPE 2 : INSTALLER
+===================
+
+1. Aller dans le dossier Téléchargements
+
+2. Double-cliquer sur le fichier :
+   dotnet-sdk-8.0.11-win-x64.exe
+
+3. Si Windows demande confirmation, cliquer "Oui"
+
+4. Dans l'assistant d'installation :
+   - Cliquer "Next" ou "Suivant"
+   - Cocher "I agree to the license terms"
+   - Cliquer "Next"
+   - Cliquer "Install" ou "Installer"
+   - Attendre 2-5 minutes
+   - Cliquer "Close" ou "Fermer"
+
+
+ÉTAPE 3 : VÉRIFIER
+===================
+
+1. Fermer TOUS les PowerShell ouverts
+
+2. Ouvrir un nouveau PowerShell
+   (Windows + X → PowerShell)
+
+3. Taper :
+   dotnet --version
+
+4. Vous devriez voir : 8.0.11 (ou 8.0.x)
+
+5. Si ça fonctionne : ✅ Installation réussie !
+
+
+ÉTAPE 4 : TESTER AVEC VOTRE PROJET
+===================================
+
+1. Aller dans le dossier du projet :
+   cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+2. Vérifier dotnet :
+   dotnet --version
+
+3. Publier le projet :
+   dotnet publish -c Release -o ./publish
+
+4. Lancer l'application :
+   cd publish
+   dotnet BackendApi.dll
+
+5. Tester dans le navigateur :
+   http://localhost:5192/swagger
+
+
+========================================
+SI "dotnet n'est pas reconnu"
+========================================
+
+1. Fermer complètement PowerShell
+
+2. Redémarrer le serveur (recommandé)
+
+3. Rouvrir PowerShell
+
+4. Tester : dotnet --version
+
+OU
+
+Rafraîchir le PATH :
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+dotnet --version
+
+
+========================================
+LIEN DIRECT DE TÉLÉCHARGEMENT
+========================================
+
+https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.11-windows-x64-installer
+
+
+========================================
+CHECKLIST
+========================================
+
+[ ] SDK téléchargé
+[ ] SDK installé
+[ ] PowerShell fermé et rouvert
+[ ] dotnet --version fonctionne
+[ ] Affiche : 8.0.x
+[ ] Projet publié avec succès
+[ ] Application accessible
+
+
+========================================
+RÉSUMÉ RAPIDE
+========================================
+
+1. Télécharger : https://dotnet.microsoft.com/download/dotnet/8.0
+2. Installer : Double-cliquer sur le .exe
+3. Vérifier : dotnet --version
+4. Utiliser : dotnet publish et dotnet BackendApi.dll
+

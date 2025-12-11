@@ -1,0 +1,125 @@
+========================================
+COMMANDES POUR LANCER EN PRODUCTION
+========================================
+
+OPTION 1 : SERVICE WINDOWS (RECOMMANDÉ)
+========================================
+
+Étape 1 : Ouvrir PowerShell en tant qu'ADMINISTRATEUR
+------------------------------------------------------
+- Clic droit sur PowerShell → "Exécuter en tant qu'administrateur"
+
+Étape 2 : Aller dans le dossier du projet
+------------------------------------------
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+Étape 3 : Exécuter le script
+-----------------------------
+.\start-api-service.ps1
+
+Le script va :
+- Publier le projet automatiquement
+- Créer un service Windows
+- Vous demander si vous voulez le démarrer
+
+Étape 4 : Démarrer le service (si pas fait automatiquement)
+------------------------------------------------------------
+Start-Service -Name BackendApi
+
+Étape 5 : Vérifier que ça fonctionne
+------------------------------------
+Get-Service -Name BackendApi
+
+Vous devriez voir : Status = Running
+
+Étape 6 : Tester l'API
+-----------------------
+Ouvrir un navigateur : http://localhost:5192/swagger
+
+
+========================================
+OPTION 2 : EXÉCUTION SIMPLE (TEST)
+========================================
+
+Étape 1 : Ouvrir PowerShell (pas besoin d'admin)
+-------------------------------------------------
+cd D:\xampp\htdocs\backend_project\dotnet\BackendApi
+
+Étape 2 : Exécuter le script
+-----------------------------
+.\run-production-simple.ps1
+
+L'API va démarrer. Appuyez sur Ctrl+C pour arrêter.
+
+
+========================================
+COMMANDES UTILES POUR GÉRER LE SERVICE
+========================================
+
+Démarrer le service :
+---------------------
+Start-Service -Name BackendApi
+
+Arrêter le service :
+--------------------
+Stop-Service -Name BackendApi
+
+Redémarrer le service :
+------------------------
+Restart-Service -Name BackendApi
+
+Vérifier le statut :
+---------------------
+Get-Service -Name BackendApi
+
+Voir les erreurs (si problème) :
+----------------------------------
+Get-EventLog -LogName Application -Source BackendApi -Newest 10
+
+Supprimer le service (si besoin) :
+-----------------------------------
+Stop-Service -Name BackendApi -Force
+sc.exe delete BackendApi
+
+
+========================================
+VÉRIFICATIONS AVANT DE COMMENCER
+========================================
+
+1. Vérifier que .NET est installé :
+   dotnet --version
+   (Doit afficher 8.0.x)
+
+2. Vérifier que MySQL est démarré :
+   (Vérifiez dans les services Windows ou XAMPP)
+
+3. Vérifier appsettings.json :
+   (Ouvrir et vérifier la chaîne de connexion MySQL)
+
+
+========================================
+CONFIGURER LE FIREWALL (si besoin)
+========================================
+
+Pour permettre l'accès depuis d'autres machines :
+-------------------------------------------------
+New-NetFirewallRule -DisplayName "BackendApi HTTP" -Direction Inbound -LocalPort 5192 -Protocol TCP -Action Allow
+
+(Exécuter en tant qu'administrateur)
+
+
+========================================
+EN CAS DE PROBLÈME
+========================================
+
+1. Le service ne démarre pas :
+   Get-EventLog -LogName Application -Source BackendApi -Newest 20
+
+2. L'API n'est pas accessible :
+   - Vérifier : Get-Service -Name BackendApi
+   - Vérifier le port : Get-NetTCPConnection -LocalPort 5192
+
+3. Erreur MySQL :
+   - Vérifier que MySQL est démarré
+   - Vérifier appsettings.json
+

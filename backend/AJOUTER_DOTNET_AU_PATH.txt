@@ -1,0 +1,105 @@
+========================================
+AJOUTER .NET AU PATH
+========================================
+
+ÉTAPE 1 : Trouver où .NET est installé
+======================================
+
+# Exécuter cette commande pour trouver .NET
+$possiblePaths = @(
+    "C:\Program Files\dotnet\dotnet.exe",
+    "C:\Program Files (x86)\dotnet\dotnet.exe",
+    "$env:USERPROFILE\.dotnet\dotnet.exe"
+)
+
+foreach ($path in $possiblePaths) {
+    if (Test-Path $path) {
+        Write-Host "✓ .NET trouvé : $path" -ForegroundColor Green
+        $dotnetDir = Split-Path $path -Parent
+        Write-Host "Dossier : $dotnetDir" -ForegroundColor Yellow
+    }
+}
+
+
+ÉTAPE 2 : Ajouter au PATH (En tant qu'ADMINISTRATEUR)
+======================================================
+
+# Ouvrir PowerShell EN TANT QU'ADMINISTRATEUR
+# (Clic droit → Exécuter en tant qu'administrateur)
+
+# Méthode 1 : Si .NET est dans "C:\Program Files\dotnet"
+$dotnetPath = "C:\Program Files\dotnet"
+$currentPath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+if ($currentPath -notlike "*$dotnetPath*") {
+    [System.Environment]::SetEnvironmentVariable("Path", "$currentPath;$dotnetPath", "Machine")
+    Write-Host "✓ .NET ajouté au PATH" -ForegroundColor Green
+} else {
+    Write-Host "✓ .NET est déjà dans le PATH" -ForegroundColor Green
+}
+
+
+ÉTAPE 3 : Fermer et rouvrir PowerShell
+========================================
+
+# IMPORTANT : Fermer complètement PowerShell et le rouvrir
+# (Pas juste fermer la fenêtre, fermer complètement)
+
+
+ÉTAPE 4 : Vérifier
+==================
+
+# Dans le nouveau PowerShell
+dotnet --version
+
+# Doit afficher : 8.0.x
+
+
+========================================
+COMMANDE COMPLÈTE (Copier-coller)
+========================================
+
+# En tant qu'ADMINISTRATEUR
+$dotnetPath = "C:\Program Files\dotnet"
+$currentPath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+if ($currentPath -notlike "*$dotnetPath*") {
+    [System.Environment]::SetEnvironmentVariable("Path", "$currentPath;$dotnetPath", "Machine")
+    Write-Host "✓ .NET ajouté au PATH" -ForegroundColor Green
+    Write-Host "⚠ FERMEZ ET ROUVREZ PowerShell maintenant !" -ForegroundColor Yellow
+} else {
+    Write-Host "✓ .NET est déjà dans le PATH" -ForegroundColor Green
+}
+
+
+========================================
+SI .NET EST AILLEURS
+========================================
+
+# Si .NET est dans un autre dossier, remplacer le chemin :
+
+# Exemple si dans "C:\Program Files (x86)\dotnet"
+$dotnetPath = "C:\Program Files (x86)\dotnet"
+
+# Exemple si dans le dossier utilisateur
+$dotnetPath = "$env:USERPROFILE\.dotnet"
+
+
+========================================
+VÉRIFIER LE PATH ACTUEL
+========================================
+
+# Voir tous les chemins dans le PATH
+$env:Path -split ';' | Where-Object { $_ -like "*dotnet*" }
+
+
+========================================
+MÉTHODE ALTERNATIVE (Via Interface Graphique)
+========================================
+
+1. Clic droit sur "Ce PC" → Propriétés
+2. Paramètres système avancés
+3. Variables d'environnement
+4. Dans "Variables système", sélectionner "Path" → Modifier
+5. Nouveau → Ajouter : C:\Program Files\dotnet
+6. OK partout
+7. Fermer et rouvrir PowerShell
+

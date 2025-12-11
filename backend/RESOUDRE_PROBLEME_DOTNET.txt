@@ -1,0 +1,118 @@
+========================================
+RÉSOUDRE LE PROBLÈME DOTNET
+========================================
+
+ÉTAPE 1 : Trouver où .NET est vraiment installé
+================================================
+
+# Exécuter cette commande pour trouver .NET
+$found = $false
+$possiblePaths = @(
+    "C:\Program Files\dotnet\dotnet.exe",
+    "C:\Program Files (x86)\dotnet\dotnet.exe",
+    "$env:USERPROFILE\.dotnet\dotnet.exe",
+    "C:\dotnet\dotnet.exe"
+)
+
+Write-Host "Recherche de .NET..." -ForegroundColor Cyan
+foreach ($path in $possiblePaths) {
+    if (Test-Path $path) {
+        Write-Host "✓ .NET trouvé : $path" -ForegroundColor Green
+        & $path --version
+        $found = $true
+        $dotnetDir = Split-Path $path -Parent
+        Write-Host "Dossier : $dotnetDir" -ForegroundColor Yellow
+    }
+}
+
+if (-not $found) {
+    Write-Host "✗ .NET non trouvé dans les emplacements courants" -ForegroundColor Red
+    Write-Host "Recherche dans tout le système..." -ForegroundColor Yellow
+    Get-ChildItem -Path "C:\" -Filter "dotnet.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
+}
+
+
+ÉTAPE 2 : Rafraîchir le PATH dans la session actuelle
+======================================================
+
+# Mettre à jour le PATH pour cette session PowerShell
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+# Vérifier
+$env:Path -split ';' | Where-Object { $_ -like "*dotnet*" }
+
+
+ÉTAPE 3 : Tester avec le chemin complet
+========================================
+
+# Tester directement avec le chemin complet
+& "C:\Program Files\dotnet\dotnet.exe" --version
+
+# Si ça fonctionne, alors .NET est installé mais le PATH n'est pas à jour
+
+
+ÉTAPE 4 : Ajouter au PATH utilisateur aussi
+===========================================
+
+# Parfois il faut ajouter au PATH utilisateur ET machine
+$dotnetPath = "C:\Program Files\dotnet"
+
+# PATH Machine (déjà fait)
+$machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+if ($machinePath -notlike "*$dotnetPath*") {
+    [System.Environment]::SetEnvironmentVariable("Path", "$machinePath;$dotnetPath", "Machine")
+    Write-Host "✓ Ajouté au PATH Machine" -ForegroundColor Green
+}
+
+# PATH Utilisateur
+$userPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+if ($userPath -notlike "*$dotnetPath*") {
+    [System.Environment]::SetEnvironmentVariable("Path", "$userPath;$dotnetPath", "User")
+    Write-Host "✓ Ajouté au PATH Utilisateur" -ForegroundColor Green
+}
+
+# Rafraîchir pour cette session
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+# Tester maintenant
+dotnet --version
+
+
+========================================
+COMMANDES COMPLÈTES (Copier-coller)
+========================================
+
+# 1. Trouver .NET
+$found = $false
+$possiblePaths = @(
+    "C:\Program Files\dotnet\dotnet.exe",
+    "C:\Program Files (x86)\dotnet\dotnet.exe",
+    "$env:USERPROFILE\.dotnet\dotnet.exe"
+)
+
+foreach ($path in $possiblePaths) {
+    if (Test-Path $path) {
+        Write-Host "✓ .NET trouvé : $path" -ForegroundColor Green
+        & $path --version
+        $found = $true
+    }
+}
+
+# 2. Rafraîchir le PATH
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+# 3. Tester
+dotnet --version
+
+
+========================================
+SI ÇA NE FONCTIONNE TOUJOURS PAS
+========================================
+
+# Utiliser le chemin complet directement
+& "C:\Program Files\dotnet\dotnet.exe" --version
+
+# Ou créer un alias
+Set-Alias -Name dotnet -Value "C:\Program Files\dotnet\dotnet.exe"
+dotnet --version
+

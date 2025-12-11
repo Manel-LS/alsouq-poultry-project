@@ -1,0 +1,122 @@
+========================================
+DÉSINSTALLER L'ANCIENNE VERSION DE .NET
+========================================
+
+MÉTHODE 1 : Via Paramètres Windows (PLUS SIMPLE)
+=================================================
+
+1. Ouvrir "Paramètres Windows" (Windows + I)
+
+2. Aller dans "Applications" → "Applications et fonctionnalités"
+
+3. Chercher "Microsoft .NET" ou ".NET"
+
+4. Sélectionner toutes les versions de .NET installées
+
+5. Cliquer sur "Désinstaller" pour chacune
+
+6. Redémarrer le serveur (recommandé)
+
+
+MÉTHODE 2 : Via PowerShell (Automatique)
+=========================================
+
+# Ouvrir PowerShell EN TANT QU'ADMINISTRATEUR
+
+# Voir toutes les versions de .NET installées
+Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*Microsoft .NET*" -or $_.Name -like "*.NET*" } | Select-Object Name, Version
+
+# OU via le registre
+Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName -like "*Microsoft .NET*" -or $_.DisplayName -like "*.NET*" } | Select-Object DisplayName, DisplayVersion
+
+
+MÉTHODE 3 : Via Control Panel (Programmes et fonctionnalités)
+==============================================================
+
+1. Ouvrir "Panneau de configuration"
+
+2. Aller dans "Programmes" → "Désinstaller un programme"
+
+3. Chercher "Microsoft .NET" ou ".NET"
+
+4. Sélectionner et désinstaller toutes les versions trouvées
+
+5. Redémarrer le serveur
+
+
+MÉTHODE 4 : Utiliser le désinstalleur Microsoft
+================================================
+
+# Télécharger le désinstalleur .NET
+# https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1
+
+# Mais il n'y a pas de script de désinstallation automatique
+# Il faut utiliser les méthodes 1 ou 3 ci-dessus
+
+
+COMMANDES POUR VOIR CE QUI EST INSTALLÉ
+========================================
+
+# Voir tous les SDK .NET installés
+dotnet --list-sdks
+
+# Voir tous les runtimes .NET installés
+dotnet --list-runtimes
+
+# Voir via WMI (Windows Management Instrumentation)
+Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*NET*" } | Format-Table Name, Version -AutoSize
+
+# Voir via le registre
+Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName -like "*NET*" } | Format-Table DisplayName, DisplayVersion -AutoSize
+
+
+NETTOYER LES RESTES APRÈS DÉSINSTALLATION
+=========================================
+
+# Supprimer les dossiers restants (ATTENTION : à faire après désinstallation)
+# Ne supprimer QUE si vous êtes sûr qu'il n'y a plus rien d'installé
+
+# Dossier d'installation principal
+# C:\Program Files\dotnet
+# C:\Program Files (x86)\dotnet
+
+# Dossier utilisateur
+# $env:USERPROFILE\.dotnet
+
+# Dossier de cache
+# $env:USERPROFILE\.nuget
+
+
+RECOMMANDATION
+==============
+
+1. Utiliser la MÉTHODE 1 (Paramètres Windows) - Plus simple et sûr
+
+2. Désinstaller toutes les versions de .NET trouvées
+
+3. Redémarrer le serveur
+
+4. Installer le SDK .NET 8.0 proprement
+
+5. Vérifier : dotnet --version
+
+
+IMPORTANT
+=========
+
+⚠️ Si vous avez d'autres applications qui utilisent .NET, 
+   elles pourraient cesser de fonctionner après désinstallation.
+
+✅ Solution : Installer le SDK 8.0 par-dessus (il est compatible)
+   Pas besoin de désinstaller si vous installez juste le SDK !
+
+
+SI VOUS VOULEZ JUSTE INSTALLER LE SDK (SANS DÉSINSTALLER)
+==========================================================
+
+Vous pouvez installer le SDK 8.0 directement, même si vous avez 
+déjà une version de .NET installée. Le SDK sera ajouté et 
+fonctionnera correctement.
+
+Pas besoin de désinstaller l'ancien si vous installez juste le SDK !
+
